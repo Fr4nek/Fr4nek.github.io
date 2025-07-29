@@ -3,32 +3,99 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Franek Makowski</title>
-    <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="context">
-        <div class="glass-panel">
-            <img src="me.jpeg">
-            <h1><a href="#" target="_blank">Franek Makowski</a></h1>
-            <p>young mobile developer, UI/UX designer, creator of independent applications, projects and student.</p>
-            
-            <div class="social-buttons">
-                <a href="https://www.instagram.com/franek.publiczne.konto/" class="glass-button social-button">
-                    <i class="fab fa-instagram"></i>
-                </a>
-                <a href="https://github.com/Fr4nek" class="glass-button social-button">
-                    <i class="fab fa-github"></i>
-                </a>
-                </a>
-                <a href="https://pl.linkedin.com/in/franek-makowski-55987a306" class="glass-button social-button">
-                    <i class="fab fa-linkedin-in"></i>
-                </a>
+        <div class="glass-panel" id="mainPanel">
+            <!-- Main Panel -->
+            <div class="panel active" id="home">
+                <img src="me.jpeg" alt="Franek Makowski">
+                <h1><a href="#" target="_blank">Franek Makowski</a></h1>
+                <p>young mobile developer, UI/UX designer, creator of independent applications, projects and student.</p>
+                
+                <div class="social-buttons">
+                    <a href="https://www.instagram.com/franek.publiczne.konto/" class="glass-button social-button">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="https://github.com/Fr4nek" class="glass-button social-button">
+                        <i class="fab fa-github"></i>
+                    </a>
+                    <a href="https://pl.linkedin.com/in/franek-makowski-55987a306" class="glass-button social-button">
+                        <i class="fab fa-linkedin-in"></i>
+                    </a>
+                </div>
+                
+                <div class="glass-toolbar">
+                    <button class="glass-button" onclick="showPanel('projects')">Projekty</button>
+                    <button class="glass-button" onclick="showPanel('blog')">Blog</button>
+                    <a href="mailto:franek.makowski@icloud.com" target="_blank" class="glass-button">Contact me</a>
+                </div>
             </div>
-            
-            <div class="glass-toolbar">
-                <a href="https://maturki.app/" target="_blank" class="glass-button">maturki.app</a>
-                <a href="mailto:franek.makowski@icloud.com" target="_blank" class="glass-button">Contact me</a>
+
+            <!-- Projects Panel -->
+            <div class="panel" id="projects">
+                <button class="glass-button back-button" onclick="showPanel('home')">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+                
+                <h2 class="panel-title">Moje Projekty</h2>
+                <p class="panel-subtitle">Aplikacje i projekty które stworzyłem</p>
+                
+                <div class="projects-grid">
+                    <div class="project-card" onclick="window.open('https://maturki.app/', '_blank')">
+                        <img src="maturki_logo.png" alt="Maturki.app" class="project-logo">
+                        <div class="project-title">Maturki.app</div>
+                        <div class="project-description">Aplikacja mobilna do nauki i przygotowania się do matury z różnych przedmiotów</div>
+                    </div>
+                    
+                    
+                </div>
+            </div>
+
+            <!-- Blog Panel -->
+            <div class="panel" id="blog">
+                <button class="glass-button back-button" onclick="showPanel('home')">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+                
+                <h2 class="panel-title">Blog</h2>
+                <p class="panel-subtitle">Tu narazie nic nie ma</p>
+                
+               <!--  
+                
+               
+                <div class="blog-list">
+                    <div class="blog-post">
+                        <div class="blog-date">15 Styczeń 2024</div>
+                        <div class="blog-title">Przyszłość Mobile Development</div>
+                        <div class="blog-excerpt">Jak nowoczesne technologie zmieniają sposób w jaki tworzymy aplikacje mobilne. Flutter vs React Native w 2024...</div>
+                    </div>
+                    
+                    <div class="blog-post">
+                        <div class="blog-date">28 Grudzień 2023</div>
+                        <div class="blog-title">Design System w praktyce</div>
+                        <div class="blog-excerpt">Dlaczego każdy projekt potrzebuje spójnego design systemu i jak go skutecznie wdrożyć w zespole...</div>
+                    </div>
+                    
+                    <div class="blog-post">
+                        <div class="blog-date">10 Listopad 2023</div>
+                        <div class="blog-title">Moja droga do programowania</div>
+                        <div class="blog-excerpt">Od pierwszych linijek kodu do publikacji aplikacji w App Store. Historia mojej przygody z programowaniem...</div>
+                    </div>
+                    
+                    <div class="blog-post">
+                        <div class="blog-date">22 Październik 2023</div>
+                        <div class="blog-title">UI/UX Trends 2024</div>
+                        <div class="blog-excerpt">Jakie trendy w designie będą dominować w nadchodzącym roku. Glassmorphism, minimalizm i nie tylko...</div>
+                    </div>
+               
+               
+               
+               -->
+
+                </div>
             </div>
         </div>
     </div>
@@ -47,5 +114,33 @@
             <li></li>
         </ul>
     </div>
+
+    <script>
+        function showPanel(panelName) {
+            const panels = document.querySelectorAll('.panel');
+            const mainPanel = document.getElementById('mainPanel');
+            
+            // Add fade out effect
+            mainPanel.classList.add('fade-out');
+            
+            setTimeout(() => {
+                // Hide all panels
+                panels.forEach(panel => {
+                    panel.classList.remove('active');
+                });
+                
+                // Show target panel
+                document.getElementById(panelName).classList.add('active');
+                
+                // Add fade in effect
+                mainPanel.classList.remove('fade-out');
+                mainPanel.classList.add('fade-in');
+                
+                setTimeout(() => {
+                    mainPanel.classList.remove('fade-in');
+                }, 300);
+            }, 250);
+        }
+    </script>
 </body>
 </html>
