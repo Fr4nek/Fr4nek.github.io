@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -13,13 +13,22 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
 
+    <script>
+        window.onload = () => {
+          console.log("%c🌐 This website was created independently with zero use of AI.", "color: #2b8a3e; font-size: 16px; font-weight: bold;");
+          console.log("%c Only pure HTML and CSS were used, no frameworks.", "color: #1c7ed6; font-size: 14px;");
+
+          console.log("%cAutor: Franek Makowski", "color: #495057; font-size: 13px;");
+        };
+      </script>
+
 </head>
 <body>
     <div class="context">
         <div class="glass-panel" id="mainPanel">
             <!-- Main Panel -->
             <div class="panel active" id="home">
-                <img src="me.webp" alt="Franek Makowski">
+                <img src="assets/me.webp" alt="Franek Makowski">
                 <h1><a href="#" target="_blank">Franek Makowski</a></h1>
                 <p>young mobile developer, UI/UX designer, creator of independent applications, projects and student.</p>
                 
@@ -36,8 +45,10 @@
                 </div>
                 
                 <div class="glass-toolbar">
-                    <button class="glass-button" onclick="showPanel('projects')">Projekty</button>
+                    <button class="glass-button" onclick="showPanel('projects')">Projects</button>
+                    <!-- 
                     <button class="glass-button" onclick="showPanel('blog')">Blog</button>
+                    -->
                     <a href="mailto:franek.makowski@icloud.com" target="_blank" class="glass-button">Contact me</a>
                 </div>
             </div>
@@ -49,22 +60,27 @@
                 </button>
                 
                 <h2 class="panel-title">My projects:</h2>
-                <p class="panel-subtitle">Aplikacje i projekty które stworzyłem</p>
+                <p class="panel-subtitle">Applications and projects I created</p>
                 
                 <div class="projects-grid">
 
                     <div class="project-card" onclick="window.open('https://maturki.app/', '_blank')">
-                        <img src="maturki_logo.webp" alt="Maturki.app" class="project-logo">
+                        <img src="assets/logo/maturki_logo.webp" alt="Maturki.app" class="project-logo">
                         <div class="project-title">Maturki.app</div>
-                        <div class="project-description">Aplikacja mobilna do nauki i przygotowania się do matury z różnych przedmiotów</div>
+                        <div class="project-description">A mobile app for learning and preparing for the Matura exam in various subjects</div>
                     </div>
 
                     <div class="project-card" onclick="window.open('https://pozzy.vercel.app/', '_blank')">
-                        <img src="pozzy_logo.webp" alt="Pozzy" class="project-logo">
+                        <img src="assets/logo/pozzy_logo.webp" alt="Pozzy" class="project-logo">
                         <div class="project-title">Pozzy</div>
-                        <div class="project-description">Aplikacja webowa / PWA pokazująca pozytywne informacje ze świata z ostatniej doby</div>
+                        <div class="project-description">A web application/PWA showing positive news from around the world from the last 24 hours.</div>
                     </div>
                     
+                    <div class="project-card" onclick="window.open('https://rubberducknote.netlify.app/', '_blank')">
+                        <img src="assets/logo/rdn_logo.webp" alt="Pozzy" class="project-logo">
+                        <div class="project-title">RubberDuckNote</div>
+                        <div class="project-description">Mobile app for planing posts on social media.</div>
+                    </div>
                     
                 </div>
             </div>
