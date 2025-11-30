@@ -15,117 +15,134 @@
 
     <script>
         window.onload = () => {
-          console.log("%c🌐 This website was created independently with zero use of AI.", "color: #2b8a3e; font-size: 16px; font-weight: bold;");
+          console.log("%c🌍 This website was created independently with zero use of AI.", "color: #2b8a3e; font-size: 16px; font-weight: bold;");
           console.log("%c Only pure HTML and CSS were used, no frameworks.", "color: #1c7ed6; font-size: 14px;");
-
           console.log("%cAutor: Franek Makowski", "color: #495057; font-size: 13px;");
         };
-      </script>
+    </script>
 
 </head>
 <body>
     <div class="context">
-        <div class="glass-panel" id="mainPanel">
-            <!-- Main Panel -->
-            <div class="panel active" id="home">
-                <img src="assets/me.webp" alt="Franek Makowski">
-                <h1><a href="#" target="_blank">Franek Makowski</a></h1>
-                <p>young mobile developer, UI/UX designer, creator of independent applications, projects and student.</p>
-                
-                <div class="social-buttons">
-                    <a href="https://www.instagram.com/franek.publiczne.konto/" class="glass-button social-button">
-                        <i class="fab fa-instagram"></i>
-                    </a>
-                    <a href="https://github.com/Fr4nek" class="glass-button social-button">
-                        <i class="fab fa-github"></i>
-                    </a>
-                    <a href="https://pl.linkedin.com/in/franek-makowski-55987a306" class="glass-button social-button">
-                        <i class="fab fa-linkedin-in"></i>
-                    </a>
+        <div class="content-wrapper">
+            <div class="glass-panel" id="mainPanel">
+                <!-- Main Panel -->
+                <div class="panel active" id="home">
+                    <img src="assets/me.webp" alt="Franek Makowski">
+                    <h1><a href="#" target="_blank">Franek Makowski</a></h1>
+                    <p>young mobile developer, UI/UX designer, creator of independent applications, projects and student.</p>
+                    
+                    <div class="social-buttons">
+                        <a href="https://www.instagram.com/franek.publiczne.konto/" class="glass-button social-button">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="https://github.com/Fr4nek" class="glass-button social-button">
+                            <i class="fab fa-github"></i>
+                        </a>
+                        <a href="https://pl.linkedin.com/in/franek-makowski-55987a306" class="glass-button social-button">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                    </div>
+                    
+                    <div class="glass-toolbar">
+                        <button class="glass-button" onclick="showPanel('projects')">Projects</button>
+                        <a href="mailto:franek.makowski@icloud.com" target="_blank" class="glass-button">Contact me</a>
+                        <button class="glass-button" onclick="showAbout()">About Me</button>
+                    </div>
                 </div>
-                
-                <div class="glass-toolbar">
-                    <button class="glass-button" onclick="showPanel('projects')">Projects</button>
-                    <!-- 
-                    <button class="glass-button" onclick="showPanel('blog')">Blog</button>
-                    -->
-                    <a href="mailto:franek.makowski@icloud.com" target="_blank" class="glass-button">Contact me</a>
+
+                <!-- Projects Panel -->
+                <div class="panel" id="projects">
+                    <button class="glass-button back-button" onclick="showPanel('home')">
+                        <i class="fas fa-arrow-left"></i>
+                    </button>
+                    
+                    <h2 class="panel-title">My projects:</h2>
+                    <p class="panel-subtitle">Applications and projects I created</p>
+                    
+                    <div class="projects-grid">
+
+                        <div class="project-card" onclick="window.open('https://maturki.app/', '_blank')">
+                            <img src="assets/logo/maturki_logo.webp" alt="Maturki.app" class="project-logo">
+                            <div class="project-title">Maturki.app</div>
+                            <div class="project-description">A mobile app for learning and preparing for the Matura exam in various subjects</div>
+                        </div>
+
+                        <div class="project-card" onclick="window.open('https://pozzy.vercel.app/', '_blank')">
+                            <img src="assets/logo/pozzy_logo.webp" alt="Pozzy" class="project-logo">
+                            <div class="project-title">Pozzy</div>
+                            <div class="project-description">A web application/PWA showing positive news from around the world from the last 24 hours.</div>
+                        </div>
+                        
+                        <div class="project-card" onclick="window.open('https://rubberducknote.netlify.app/', '_blank')">
+                            <img src="assets/logo/rdn_logo.webp" alt="RubberDuckNote" class="project-logo">
+                            <div class="project-title">RubberDuckNote</div>
+                            <div class="project-description">Mobile app for planing posts on social media.</div>
+                        </div>
+                        
+                    </div>
                 </div>
             </div>
 
-            <!-- Projects Panel -->
-            <div class="panel" id="projects">
-                <button class="glass-button back-button" onclick="showPanel('home')">
+            <!-- Timeline Container (shown on right when About Me is clicked) -->
+            <div class="timeline-container" id="timelineContainer">
+                <button class="glass-button back-button" onclick="hideAbout()">
                     <i class="fas fa-arrow-left"></i>
                 </button>
                 
-                <h2 class="panel-title">My projects:</h2>
-                <p class="panel-subtitle">Applications and projects I created</p>
-                
-                <div class="projects-grid">
-
-                    <div class="project-card" onclick="window.open('https://maturki.app/', '_blank')">
-                        <img src="assets/logo/maturki_logo.webp" alt="Maturki.app" class="project-logo">
-                        <div class="project-title">Maturki.app</div>
-                        <div class="project-description">A mobile app for learning and preparing for the Matura exam in various subjects</div>
-                    </div>
-
-                    <div class="project-card" onclick="window.open('https://pozzy.vercel.app/', '_blank')">
-                        <img src="assets/logo/pozzy_logo.webp" alt="Pozzy" class="project-logo">
-                        <div class="project-title">Pozzy</div>
-                        <div class="project-description">A web application/PWA showing positive news from around the world from the last 24 hours.</div>
-                    </div>
-                    
-                    <div class="project-card" onclick="window.open('https://rubberducknote.netlify.app/', '_blank')">
-                        <img src="assets/logo/rdn_logo.webp" alt="Pozzy" class="project-logo">
-                        <div class="project-title">RubberDuckNote</div>
-                        <div class="project-description">Mobile app for planing posts on social media.</div>
-                    </div>
-                    
+                <div class="timeline-header">
+                    <h2 class="panel-title">About Me</h2>
+                    <p class="panel-subtitle">My journey</p>
                 </div>
-            </div>
-
-            <!-- Blog Panel -->
-            <div class="panel" id="blog">
-                <button class="glass-button back-button" onclick="showPanel('home')">
-                    <i class="fas fa-arrow-left"></i>
-                </button>
                 
-                <h2 class="panel-title">Blog</h2>
-                <p class="panel-subtitle">Tu narazie nic nie ma</p>
-                
-               <!--  
-                
-               
-                <div class="blog-list">
-                    <div class="blog-post">
-                        <div class="blog-date">15 Styczeń 2024</div>
-                        <div class="blog-title">Przyszłość Mobile Development</div>
-                        <div class="blog-excerpt">Jak nowoczesne technologie zmieniają sposób w jaki tworzymy aplikacje mobilne. Flutter vs React Native w 2024...</div>
+                <div class="timeline">
+                    <div class="timeline-item timeline-left">
+                        <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=start" alt="Started Coding" class="timeline-image">
+                        <div class="timeline-content">
+                            <h3 class="timeline-title">🚀 Started Coding</h3>
+                            <p class="timeline-text">Began my journey in mobile development</p>
+                        </div>
                     </div>
                     
-                    <div class="blog-post">
-                        <div class="blog-date">28 Grudzień 2023</div>
-                        <div class="blog-title">Design System w praktyce</div>
-                        <div class="blog-excerpt">Dlaczego każdy projekt potrzebuje spójnego design systemu i jak go skutecznie wdrożyć w zespole...</div>
+                    <div class="timeline-item timeline-right">
+                        <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=launch" alt="First App" class="timeline-image">
+                        <div class="timeline-content">
+                            <h3 class="timeline-title">📱 First App Launch</h3>
+                            <p class="timeline-text">Published my first application on app stores</p>
+                        </div>
                     </div>
                     
-                    <div class="blog-post">
-                        <div class="blog-date">10 Listopad 2023</div>
-                        <div class="blog-title">Moja droga do programowania</div>
-                        <div class="blog-excerpt">Od pierwszych linijek kodu do publikacji aplikacji w App Store. Historia mojej przygody z programowaniem...</div>
+                    <div class="timeline-item timeline-left">
+                        <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=design" alt="UI/UX Design" class="timeline-image">
+                        <div class="timeline-content">
+                            <h3 class="timeline-title">🎨 UI/UX Design</h3>
+                            <p class="timeline-text">Discovered passion for design and interfaces</p>
+                        </div>
                     </div>
                     
-                    <div class="blog-post">
-                        <div class="blog-date">22 Październik 2023</div>
-                        <div class="blog-title">UI/UX Trends 2024</div>
-                        <div class="blog-excerpt">Jakie trendy w designie będą dominować w nadchodzącym roku. Glassmorphism, minimalizm i nie tylko...</div>
+                    <div class="timeline-item timeline-right">
+                        <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=maturki" alt="Maturki.app" class="timeline-image">
+                        <div class="timeline-content">
+                            <h3 class="timeline-title">📚 Maturki.app</h3>
+                            <p class="timeline-text">Created an educational app for students</p>
+                        </div>
                     </div>
-               
-               
-               
-               -->
-
+                    
+                    <div class="timeline-item timeline-left">
+                        <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=pozzy" alt="Pozzy Project" class="timeline-image">
+                        <div class="timeline-content">
+                            <h3 class="timeline-title">🌟 Pozzy Project</h3>
+                            <p class="timeline-text">Built a web app to share positive news</p>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item timeline-right">
+                        <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=today" alt="Today" class="timeline-image">
+                        <div class="timeline-content">
+                            <h3 class="timeline-title">💡 Today</h3>
+                            <p class="timeline-text">Continuing to learn and create amazing apps</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -149,28 +166,37 @@
     <script>
         function showPanel(panelName) {
             const panels = document.querySelectorAll('.panel');
+            
+            panels.forEach(panel => {
+                panel.classList.remove('active');
+            });
+            
+            document.getElementById(panelName).classList.add('active');
+        }
+
+        function showAbout() {
             const mainPanel = document.getElementById('mainPanel');
+            const timelineContainer = document.getElementById('timelineContainer');
             
-            // Add fade out effect
-            mainPanel.classList.add('fade-out');
+            // Hide main panel and show timeline
+            mainPanel.classList.add('hidden');
+            timelineContainer.classList.add('show');
+        }
+
+        function hideAbout() {
+            const mainPanel = document.getElementById('mainPanel');
+            const timelineContainer = document.getElementById('timelineContainer');
             
+            // Hide timeline and show main panel
+            timelineContainer.classList.remove('show');
+            mainPanel.classList.remove('hidden');
+        }
+    </script>show');
+            
+            // Show main panel back after a short delay
             setTimeout(() => {
-                // Hide all panels
-                panels.forEach(panel => {
-                    panel.classList.remove('active');
-                });
-                
-                // Show target panel
-                document.getElementById(panelName).classList.add('active');
-                
-                // Add fade in effect
-                mainPanel.classList.remove('fade-out');
-                mainPanel.classList.add('fade-in');
-                
-                setTimeout(() => {
-                    mainPanel.classList.remove('fade-in');
-                }, 300);
-            }, 250);
+                mainPanel.classList.remove('hide-left');
+            }, 300);
         }
     </script>
 </body>
