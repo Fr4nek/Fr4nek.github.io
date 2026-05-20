@@ -1,0 +1,71 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Franek Makowski</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="blog.css">
+</head>
+<body>
+    <div class="context">
+
+        <div class="glass-panel blog-panel" id="blogPanel">
+            <div class="blog-content">
+            <H1>Tony Stark was a vibe coder?</H1>  
+            
+
+            <blockquote class="twitter-tweet" data-theme="dark" data-dnt="true" align="center"><p lang="en" dir="ltr">Maturing is realizing that Tony Stark was a vibe-coder. <a href="https://t.co/kL90IM3X3H">pic.twitter.com/kL90IM3X3H</a></p>&mdash; Vadim (@VadimStrizheus) <a href="https://twitter.com/VadimStrizheus/status/2030323373901762763?ref_src=twsrc%5Etfw">March 7, 2026</a></blockquote>
+            <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+
+                <p>The end ...</p>
+            </div>
+        </div>
+         
+    </div>
+
+    <div class="area">
+        <ul class="circles">
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+        </ul>
+    </div>
+
+    <script>
+        function showPanel(panelName) {
+            const panels = document.querySelectorAll('.panel');
+            const mainPanel = document.getElementById('mainPanel');
+            
+            // Add fade out effect
+            mainPanel.classList.add('fade-out');
+            
+            setTimeout(() => {
+                // Hide all panels
+                panels.forEach(panel => {
+                    panel.classList.remove('active');
+                });
+                
+                // Show target panel
+                document.getElementById(panelName).classList.add('active');
+                
+                // Add fade in effect
+                mainPanel.classList.remove('fade-out');
+                mainPanel.classList.add('fade-in');
+                
+                setTimeout(() => {
+                    mainPanel.classList.remove('fade-in');
+                }, 300);
+            }, 250);
+        }
+    </script>
+</body>
+</html>
