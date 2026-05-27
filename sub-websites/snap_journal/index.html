@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="pl" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SnapJournal - Twój Wizualny Pamiętnik</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="icon" href="logo.png" sizes="144x144" type="image/png">
+    
+    <script>
+        tailwind.config = {
+          theme: {
+            extend: {
+              colors: {
+                brand: {
+                  primary: 'var(--color-primary)',
+                  secondary: 'var(--color-secondary)',
+                  accent: 'var(--color-accent)',
+                  bg: 'var(--color-bg)',
+                  surface: 'var(--color-surface)',
+                  text: 'var(--color-text)',
+                  muted: 'var(--color-muted)',
+                }
+              },
+              borderRadius: {
+                'brand': 'var(--radius-brand)',
+              }
+            }
+          }
+        }
+    </script>
+
+    <style type="text/tailwindcss">
+        @layer base {
+          :root {
+            /* KOLORYSTYKA DOPASOWANA DO LOGO SNAPJOURNAL */
+            --color-primary: #4a4a4a;    
+            --color-secondary: #71717a;  
+            --color-accent: #a1a1aa;     
+            --color-bg: #f0f2f5;         
+            --color-surface: #e4e7eb;    
+            --color-text: #2d3142;       
+            --color-muted: #6c757d;      
+            
+            --radius-brand: 1.5rem;      
+          }
+
+          body {
+            @apply bg-brand-bg text-brand-text;
+          }
+
+          .clay-card {
+            background: #f0f2f5;
+            box-shadow: 
+              inset 4px 4px 8px rgba(255, 255, 255, 0.9),
+              inset -4px -4px 8px rgba(0, 0, 0, 0.05),
+              8px 8px 16px rgba(0, 0, 0, 0.06),
+              -8px -8px 16px rgba(255, 255, 255, 0.8);
+          }
+
+          .clay-card-featured {
+            background: #fbfbfb;
+            box-shadow: 
+              inset 4px 4px 8px rgba(255, 255, 255, 1),
+              inset -4px -4px 8px rgba(0, 0, 0, 0.02),
+              12px 12px 24px rgba(0, 0, 0, 0.08),
+              -12px -12px 24px rgba(255, 255, 255, 0.9);
+            border: 2px solid #4a4a4a;
+          }
+
+          .clay-nav {
+            background: rgba(240, 242, 245, 0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            box-shadow: 
+              inset 1px 1px 2px rgba(255, 255, 255, 0.8),
+              0 10px 30px rgba(0, 0, 0, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.7);
+          }
+        }
+    </style>
+</head>
+<body class="font-sans leading-relaxed antialiased">
+
+    <nav class="fixed top-6 left-1/2 -translate-x-1/2 z-50 w-[95%] max-w-3xl">
+        <div class="clay-nav rounded-brand px-4 md:px-6 py-3 flex justify-center md:justify-between items-center">
+            
+            <div class="flex items-center gap-2 pl-2">
+                <i data-lucide="camera" class="w-5 h-5 text-brand-primary"></i>
+                <span class="hidden md:block font-bold tracking-tight text-sm text-brand-primary">SnapJournal</span>
+            </div>
+            
+            <div class="flex items-center gap-4 md:gap-6">
+                <a href="#home" class="hover:text-brand-primary text-brand-muted transition-colors text-xs font-bold uppercase tracking-wider">Start</a>
+                <a href="#features" class="hover:text-brand-primary text-brand-muted transition-colors text-xs font-bold uppercase tracking-wider">Funkcje</a>
+                <a href="#pricing" class="hover:text-brand-primary text-brand-muted transition-colors text-xs font-bold uppercase tracking-wider">Cennik</a>
+                
+                <div class="hidden md:block h-5 w-[1px] bg-gray-300 mx-1"></div>
+                
+                <a href="#download" class="hidden md:inline-flex bg-brand-primary hover:bg-brand-secondary text-white text-xs font-bold uppercase tracking-wider px-4 py-2 rounded-xl transition-all shadow-sm items-center gap-1.5">
+                    <i data-lucide="download" class="w-3.5 h-3.5"></i>
+                    Pobierz
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <section id="home" class="min-h-screen flex items-center justify-center px-6 relative overflow-hidden">
+        <div class="text-center max-w-4xl z-10">
+            <div class="w-24 h-24 mx-auto mb-8 clay-card rounded-brand flex items-center justify-center text-brand-accent">
+                <i data-lucide="calendar-days" class="w-12 h-12 stroke-[1.25]"></i>
+            </div>
+            <h1 class="text-4xl md:text-6xl font-extrabold mb-6 tracking-tight text-brand-primary">
+                Twój codzienny kadrowany <span class="text-brand-muted font-light italic">dziennik</span>
+            </h1>
+            <p class="text-base md:text-lg text-brand-muted mb-10 max-w-xl mx-auto font-medium">
+                Zapisuj wspomnienia obrazem i słowem w minimalistycznej, czystej formie inspirowanej doskonałym designem.
+            </p>
+            <div class="flex gap-4 justify-center">
+                <a href="#features" class="clay-card hover:bg-white/50 text-brand-text px-8 py-4 rounded-brand font-bold transition-all transform hover:-translate-y-0.5">
+                    Zobacz funkcje
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <section id="features" class="min-h-screen flex flex-col items-center justify-center px-6 bg-brand-surface/20">
+        <div class="text-center mb-16">
+            <h2 class="text-3xl font-bold text-brand-primary tracking-tight mb-3">Zaprojektowany z precyzją</h2>
+            <p class="text-brand-muted text-sm max-w-md mx-auto">Każdy detal interfejsu współgra ze sobą, tworząc harmonijną całość.</p>
+        </div>
+        <div class="grid md:grid-cols-3 gap-8 max-w-5xl w-full">
+            <div class="clay-card p-8 rounded-brand hover:scale-[1.02] transition-all duration-300">
+                <div class="w-12 h-12 rounded-2xl bg-white flex items-center justify-center shadow-sm mb-6 text-brand-muted">
+                    <i data-lucide="image" class="w-6 h-6"></i>
+                </div>
+                <h3 class="text-lg font-bold mb-2 tracking-tight text-brand-primary">Wizualna Oś Czasu</h3>
+                <p class="text-brand-muted text-sm leading-relaxed">Twoje zdjęcia i wspomnienia ułożone w czytelny, piękny kalendarz.</p>
+            </div>
+            <div class="clay-card p-8 rounded-brand hover:scale-[1.02] transition-all duration-300">
+                <div class="w-12 h-12 rounded-2xl bg-white flex items-center justify-center shadow-sm mb-6 text-brand-muted">
+                    <i data-lucide="lock" class="w-6 h-6"></i>
+                </div>
+                <h3 class="text-lg font-bold mb-2 tracking-tight text-brand-primary">Pełna Prywatność</h3>
+                <p class="text-brand-muted text-sm leading-relaxed">Dane szyfrowane lokalnie na Twoim urządzeniu za pomocą biometrii.</p>
+            </div>
+            <div class="clay-card p-8 rounded-brand hover:scale-[1.02] transition-all duration-300">
+                <div class="w-12 h-12 rounded-2xl bg-white flex items-center justify-center shadow-sm mb-6 text-brand-muted">
+                    <i data-lucide="cloud" class="w-6 h-6"></i>
+                </div>
+                <h3 class="text-lg font-bold mb-2 tracking-tight text-brand-primary">Czysta Synchronizacja</h3>
+                <p class="text-brand-muted text-sm leading-relaxed">Lekkie i szybkie przesyłanie danych bez obciążania baterii.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="pricing" class="min-h-screen flex flex-col items-center justify-center px-6 bg-brand-surface/50">
+        <div class="text-center mb-12">
+            <h2 class="text-3xl font-bold text-brand-primary tracking-tight mb-3">Wybierz swój plan</h2>
+            <p class="text-brand-muted text-sm max-w-md mx-auto">Dopasuj SnapJournal do swoich potrzeb. Rozwijaj kreatywność bez limitów.</p>
+        </div>
+        
+        <div class="grid md:grid-cols-3 gap-8 max-w-5xl w-full items-stretch">
+            
+            <div class="clay-card p-8 rounded-[2rem] flex flex-col justify-between">
+                <div>
+                    <h3 class="text-xl font-bold text-brand-primary mb-2">Darmowy</h3>
+                    <p class="text-brand-muted text-xs mb-6">Podstawowy pamiętnik na co dzień.</p>
+                    <div class="flex items-baseline gap-1 mb-6">
+                        <span class="text-4xl font-extrabold tracking-tight text-brand-primary">0 zł</span>
+                        <span class="text-brand-muted text-xs">/ na zawsze</span>
+                    </div>
+                    <ul class="space-y-3.5 text-sm text-brand-muted mb-8">
+                        <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-brand-primary"></i> 1 zdjęcie dziennie</li>
+                        <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-brand-primary"></i> Podstawowe wpisy tekstowe</li>
+                        <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-brand-primary"></i> Lokalne szyfrowanie</li>
+                    </ul>
+                </div>
+                <button class="w-full bg-white border border-gray-300 hover:bg-gray-50 text-brand-primary py-3 rounded-xl text-xs font-bold uppercase tracking-wider shadow-sm transition-all">Rozpocznij</button>
+            </div>
+
+            <div class="clay-card p-8 rounded-[2rem] flex flex-col justify-between">
+                <div>
+                    <h3 class="text-xl font-bold text-brand-primary mb-2">Plus <span class="text-xs font-medium text-brand-muted">(Miesięczny)</span></h3>
+                    <p class="text-brand-muted text-xs mb-6">Pełna swoboda i synchronizacja.</p>
+                    <div class="flex items-baseline gap-1 mb-6">
+                        <span class="text-4xl font-extrabold tracking-tight text-brand-primary">19 zł</span>
+                        <span class="text-brand-muted text-xs">/ miesiąc</span>
+                    </div>
+                    <ul class="space-y-3.5 text-sm text-brand-muted mb-8">
+                        <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-brand-primary"></i> Nielimitowane zdjęcia</li>
+                        <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-brand-primary"></i> Synchronizacja w chmurze</li>
+                        <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-brand-primary"></i> Formatowanie tekstu bogatego</li>
+                        <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-brand-primary"></i> Eksport do PDF/Markdown</li>
+                    </ul>
+                </div>
+                <button class="w-full bg-brand-primary hover:bg-brand-secondary text-white py-3 rounded-xl text-xs font-bold uppercase tracking-wider shadow-md transition-all">Wybierz Plus</button>
+            </div>
+
+            <div class="clay-card-featured p-8 rounded-[2rem] flex flex-col justify-between relative overflow-hidden">
+                <div class="absolute top-4 right-4 bg-brand-primary text-white text-[9px] font-black uppercase tracking-widest px-2.5 py-1 rounded-full">
+                    Najlepszy wybór
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold text-brand-primary mb-2">Plus <span class="text-xs font-medium text-brand-muted">(Roczny)</span></h3>
+                    <p class="text-brand-muted text-xs mb-6">Oszczędzasz ponad 35% rocznie.</p>
+                    <div class="flex items-baseline gap-1 mb-6">
+                        <span class="text-4xl font-extrabold tracking-tight text-brand-primary">119 zł</span>
+                        <span class="text-brand-muted text-xs">/ rok</span>
+                    </div>
+                    <ul class="space-y-3.5 text-sm text-brand-muted mb-8">
+                        <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-brand-primary"></i> Wszystko co w planie miesięcznym</li>
+                        <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-brand-primary"></i> Priorytetowe wsparcie</li>
+                        <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-brand-primary"></i> Wczesny dostęp do funkcji AI</li>
+                        <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-brand-primary"></i> Dedykowane motywy wizualne</li>
+                    </ul>
+                </div>
+                <button class="w-full bg-brand-primary hover:bg-brand-secondary text-white py-3 rounded-xl text-xs font-bold uppercase tracking-wider shadow-md transition-all">Oszczędzaj teraz</button>
+            </div>
+
+        </div>
+    </section>
+
+    <footer class="bg-brand-surface/30 border-t border-white/40 py-10 px-6">
+        <div class="max-w-5xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-4">
+            
+            <div class="flex items-center gap-2">
+                <div class="w-8 h-8 clay-card rounded-lg flex items-center justify-center text-brand-primary">
+                    <i data-lucide="camera" class="w-4 h-4"></i>
+                </div>
+                <span class="font-bold tracking-tight text-sm text-brand-primary">SnapJournal</span>
+            </div>
+            
+            <div class="text-center sm:text-right text-[11px] text-brand-muted font-medium">
+                &copy; 2026 SnapJournal. Wszelkie prawa zastrzeżone.
+            </div>
+            
+        </div>
+    </footer>
+
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+</html>
