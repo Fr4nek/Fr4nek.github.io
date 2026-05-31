@@ -25,12 +25,14 @@
                     <a href="https://pl.linkedin.com/in/franek-makowski-55987a306" class="glass-button social-button">
                         <i class="fab fa-linkedin-in"></i>
                     </a>
+                    <a href="mailto:franek.makowski@icloud.com" target="_blank" class="glass-button social-button">
+                        <i class="fa-regular fa-envelope"></i>                    </a>
                 </div>
                 
                 <div class="glass-toolbar">
                     <button class="glass-button" onclick="showPanel('projects')">Projekty</button>
                     <button class="glass-button" onclick="showPanel('blog')">Blog</button>
-                    <a href="mailto:franek.makowski@icloud.com" target="_blank" class="glass-button">Contact me</a>
+                    <button id="theme-toggle" class="glass-button">Zmień motyw</button>
                 </div>
             </div>
 
@@ -66,7 +68,7 @@
                     <div class="project-card" onclick="window.open('sub-websites/snap_journal/index.html', '_blank')">
                         <img src="sub-websites/snap_journal/logo.png" alt="Pozzy" class="project-logo">
                         <div class="project-title">Snap Journal</div>
-                        <div class="project-description">Aplikacja webowa / PWA pokazująca pozytywne informacje ze świata z ostatniej doby</div>
+                        <div class="project-description">Opis potem dodam</div>
                     </div>
                     
                     
@@ -82,10 +84,10 @@
                 <h2 class="panel-title">Blog</h2>
                 <p class="panel-subtitle">Nothing here yet...</p>
                 
-                <a href="blog/1.html">
+                <a href="blog/001.html">
                 <div class="blog-list">
                     <div class="blog-post">
-                        <div class="blog-date">21 May 2024</div>
+                        <div class="blog-date">19 May 2026</div>
                         <div class="blog-title">How Far Can We Go to Make an iPhone Truly Secure?</div>
                         <div class="blog-excerpt"></div>
                     </div>
@@ -172,5 +174,29 @@
             }, 250);
         }
     </script>
+
+    <script>
+        const themeToggleBtn = document.getElementById('theme-toggle');
+
+        // Sprawdź, czy użytkownik ma już zapisany preferowany motyw
+        const currentTheme = localStorage.getItem('theme');
+        if (currentTheme === 'light') {
+            document.body.classList.add('light-mode');
+        }
+
+        // Obsługa kliknięcia przycisku
+        themeToggleBtn.addEventListener('click', () => {
+            // Przełącz klasę light-mode na elemencie body
+            document.body.classList.toggle('light-mode');
+            
+            // Zapisz wybór w localStorage
+            if (document.body.classList.contains('light-mode')) {
+                localStorage.setItem('theme', 'light');
+            } else {
+                localStorage.setItem('theme', 'dark');
+            }
+        });
+    </script>
+    
 </body>
 </html>
