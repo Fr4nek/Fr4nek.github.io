@@ -17,6 +17,22 @@
     },
     {
         "boxId": "pudelko2",
+        "boxName": "Peryferia",
+        "items": [
+            {
+                "name": "Pad do Switcha z Action",
+                "imageUrl": "https://asset.action.com/image/upload/t_digital_product_image/w_1920/3007868_8711332471278-110_01_msrhli.webp",
+                "location": "Peryferia"
+            },
+            {
+                "name": "ThinkPad zasilacz (okrągła końcówka)",
+                "imageUrl": "https://download.lenovo.com/km/media/images/PD008463/90W%20Round_20190415012435424.JPG",
+                "location": "Peryferia"
+            }
+        ]
+    },
+    {
+        "boxId": "pudelko3",
         "boxName": "Małe Elektroniczne",
         "items": [
             {
@@ -25,9 +41,140 @@
                 "location": "Małe Elektroniczne"
             },
             {
+                "name": "Samsung Galaxy S3 Mini",
+                "imageUrl": "https://www.dhresource.com/webp/m/0x0/f2/albu/g8/M01/E0/15/rBVaVFzVW22AdmryAAQWVO9SL3M650.jpg",
+                "location": "Małe Elektroniczne"
+            },
+            {
+                "name": "Redmi (od sketch)",
+                "imageUrl": "",
+                "location": "Małe Elektroniczne"
+            },
+            {
+                "name": "Samsung E2370 Xcover (pancerny)",
+                "imageUrl": "https://fdn2.gsmarena.com/vv/bigpic/Samsung-Xcover-E2370.jpg",
+                "location": "Małe Elektroniczne"
+            },
+            {
+                "name": "SWITCH TL-SG105E 5-PORTOWY TP-LINK",
+                "imageUrl": "https://sklep.delta.poznan.pl/shop_image/product/tl-sg105e_d.jpg",
+                "location": "Małe Elektroniczne"
+            },
+            {
+                "name": "Nokia C2-01",
+                "imageUrl": "https://media.cdn.videotesty.pl/media/cache/0c/34/0c34b72cedff957c1f62b117046130d7.jpg",
+                "location": "Małe Elektroniczne"
+            },
+            {
+                "name": "Huawei T1-A21w",
+                "imageUrl": "https://f00.esfr.pl/foto/3/13759791761/65d1878882406cc4254f63eff02fb23c/archival-huawei-mediapad-t1-10-8gb-wifi-srebrny,13759791761_5.jpg",
+                "location": "Małe Elektroniczne"
+            },
+            {
+                "name": "Kalkulator Naukowy Casio FX-991ES PLUS",
+                "imageUrl": "https://sklep.educarium.pl/img/247293/100-8809",
+                "location": "Małe Elektroniczne"
+            },
+            {
+                "name": "Hujowe słuchawki z chinczyka",
+                "imageUrl": "",
+                "location": "Małe Elektroniczne"
+            },
+            {
+                "name": "Podruba goPro z chinczyka",
+                "imageUrl": "",
+                "location": "Małe Elektroniczne"
+            },
+            {
+                "name": "Media-tech DVB-T WIFI TV",
+                "imageUrl": "",
+                "location": "Małe Elektroniczne"
+            },
+            {
+                "name": "Creative Outlier Air V3",
+                "imageUrl": "https://img.creative.com/images/PR/20210728/fea1.jpg",
+                "location": "Małe Elektroniczne"
+            },
+            {
+                "name": "Kalkulator Prosty z Action",
+                "imageUrl": "https://asset.action.com/image/upload/t_digital_product_image/w_1200/14460873.webp",
+                "location": "Małe Elektroniczne"
+            },
+            {
+                "name": "Kalkulator Prosty z Action",
+                "imageUrl": "https://asset.action.com/image/upload/t_digital_product_image/w_1200/14460873.webp",
+                "location": "Małe Elektroniczne"
+            },
+            {
+                "name": "Stare Htc (jakimś cudem działa)",
+                "imageUrl": "",
+                "location": "Małe Elektroniczne"
+            },
+            {
+                "name": "Jakaś Nokia",
+                "imageUrl": "",
+                "location": "Małe Elektroniczne"
+            },
+            {
+                "name": "Jakaś Nokia",
+                "imageUrl": "",
+                "location": "Małe Elektroniczne"
+            },
+            {
+                "name": "Alkomat",
+                "imageUrl": "",
+                "location": "Małe Elektroniczne"
+            },
+            {
+                "name": "Jakaś Nokia",
+                "imageUrl": "",
+                "location": "Małe Elektroniczne"
+            },
+            {
+                "name": "Stary Aparat na klisze",
+                "imageUrl": "",
+                "location": "Małe Elektroniczne"
+            },
+            {
+                "name": "Powerbunk (mały okrągły)",
+                "imageUrl": "",
+                "location": "Małe Elektroniczne"
+            },
+            {
+                "name": "Mobilny router Play",
+                "imageUrl": "",
+                "location": "Małe Elektroniczne"
+            },
+            {
+                "name": "Mobilny router T-Mobile",
+                "imageUrl": "",
+                "location": "Małe Elektroniczne"
+            },
+            {
+                "name": "Nokia XpressMusic",
+                "imageUrl": "https://www.gsmmaniak.pl/wp-content/uploads/2010/01/nokia5530xm.jpg",
+                "location": "Małe Elektroniczne"
+            },
+            {
                 "name": "LG G6",
                 "imageUrl": "https://pl.static.webuy.com/product_images/Telefony/Telefony%20Android/SLGH87032GCBSLB_l.jpg",
                 "location": "Małe Elektroniczne"
+            }
+        ]
+    },
+    {
+        "boxId": "pudelko4",
+        "boxName": "Kable Video",
+        "items": [
+            {
+                "name": "",
+                "imageUrl": "https://www.sbsupply.eu/media/amasty/webp/catalog/product/cache/207e23213cf636ccdef205098cf3c8a3/a/p/apple_60w_magsafe_1_lichtnetadapter_mc461z_a_1_jpg.webp",
+                "location": "Kable Video"
+            },
+            {
+                "name": "",
+                "imageUrl": "https://download.lenovo.com/km/media/images/PD008463/90W%20Round_20190415012435424.JPG",
+                "location": "Kable Video"
             }
         ]
     }
