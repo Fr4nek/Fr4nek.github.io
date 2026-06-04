@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menedżer Pudełek</title>
+    <style>
+        :root {
+            --bg-color: #121214;       
+            --card-bg: #1e1e24;        
+            --header-bg: #1a1a1e;      
+            --text-main: #e2e8f0;      
+            --text-muted: #94a3b8;     
+            --border-color: #2d3748;   
+            --accent-color: #00adb5;   
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+        }
+
+        header {
+            background-color: var(--header-bg);
+            border-bottom: 1px solid var(--border-color);
+            text-align: center;
+            padding: 2rem 1rem 1.5rem 1rem;
+        }
+
+        header h1 {
+            margin: 0 0 0.5rem 0;
+            color: #ffffff;
+        }
+
+        header p {
+            margin: 0 0 1.5rem 0;
+            color: var(--text-muted);
+        }
+
+        .search-container {
+            max-width: 500px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 12px 20px;
+            background-color: #25252c;
+            border: 2px solid var(--border-color);
+            border-radius: 30px;
+            color: #ffffff;
+            font-size: 1rem;
+            box-sizing: border-box;
+            transition: all 0.3s ease;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 10px rgba(0, 173, 181, 0.2);
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 2rem auto 0 auto;
+            padding: 0 1rem 3rem 1rem;
+        }
+
+        .box-section {
+            background: var(--card-bg);
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+            margin-bottom: 3rem;
+            padding: 1.5rem;
+            border-left: 5px solid #4a5568; 
+            transition: all 0.4s ease;
+        }
+
+        .box-section:target {
+            border-left-color: var(--accent-color);
+            box-shadow: 0 0 20px rgba(0, 173, 181, 0.3);
+            background-color: #22222b;
+            transform: scale(1.01); 
+        }
+
+        .box-title {
+            margin-top: 0;
+            color: #ffffff;
+            font-size: 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 0.75rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+
+        th, td {
+            padding: 14px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        th {
+            background-color: #17171c;
+            color: var(--accent-color);
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 0.5px;
+        }
+
+        tr.hidden {
+            display: none !important;
+        }
+
+        .box-section.hidden {
+            display: none !important;
+        }
+
+        /* Ulepszone style dla małych zdjęć (interaktywne) */
+        .item-img {
+            width: 65px;
+            height: 65px;
+            object-fit: cover;
+            border-radius: 6px;
+            border: 1px solid var(--border-color);
+            background-color: #2d3748; 
+            display: block;
+            cursor: pointer; /* Zmiana kursora na rączkę */
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .item-img:hover {
+            transform: scale(1.05); /* Delikatne powiększenie po najechaniu */
+            box-shadow: 0 0 10px rgba(0, 173, 181, 0.5);
+        }
+
+        /* --- STYLE DLA MODALA (POWIĘKSZONE ZDJĘCIE) --- */
+        .modal {
+            display: none; /* Domyślnie ukryty */
+            position: fixed; 
+            z-index: 1000; /* Nad wszystkim innym */
+            padding-top: 5vh; /* Odstęp od góry */
+            left: 0;
+            top: 0;
+            width: 100%; 
+            height: 100%; 
+            overflow: auto; /* Przewijanie jeśli zdjęcie jest za duże */
+            background-color: rgba(0, 0, 0, 0.9); /* Bardzo ciemne tło */
+            backdrop-filter: blur(5px); /* Delikatne rozmycie tła strony */
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal.show {
+            display: block;
+            opacity: 1;
+        }
+
+        .modal-content {
+            margin: auto;
+            display: block;
+            max-width: 90%;
+            max-height: 85vh; /* Nie wyższe niż 85% wysokości ekranu */
+            border-radius: 8px;
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.8);
+            border: 2px solid var(--accent-color);
+            transform: scale(0.8);
+            transition: transform 0.3s ease;
+        }
+
+        .modal.show .modal-content {
+            transform: scale(1); /* Płynne powiększenie zdjęcia przy otwieraniu */
+        }
+
+        /* Przycisk X (Zamykanie) */
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 25px;
+            color: #ffffff;
+            font-size: 40px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+            z-index: 1001; /* Zawsze nad zdjęciem */
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        .close-modal:hover,
+        .close-modal:focus {
+            color: var(--accent-color);
+            background-color: rgba(0, 0, 0, 0.8);
+            text-decoration: none;
+        }
+
+        .error-message {
+            background-color: #721c24;
+            color: #f8d7da;
+            padding: 15px;
+            border-radius: 5px;
+            text-align: center;
+            border: 1px solid #f5c6cb;
+        }
+
+        @media (max-width: 600px) {
+            th, td {
+                padding: 10px 8px;
+                font-size: 0.9rem;
+            }
+            .item-img {
+                width: 55px;
+                height: 55px;
+            }
+            .close-modal {
+                top: 10px;
+                right: 15px;
+                font-size: 35px;
+            }
+            .modal-content {
+                max-width: 95%;
+                margin-top: 10vh;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>📦 Mój Domowy Magazyn</h1>
+        <p>Zeskanuj kod QR na pudełku lub skorzystaj z wyszukiwarki</p>
+        <div class="search-container">
+            <input type="text" id="searchInput" class="search-input" placeholder="Wyszukaj przedmiot...">
+        </div>
+    </header>
+
+    <div class="container" id="boxesContainer">
+        <p style="text-align: center; color: var(--text-muted);">Ładowanie bazy danych przedmiotów...</p>
+    </div>
+
+    <div id="imageModal" class="modal">
+        <span class="close-modal">&times;</span>
+        <img class="modal-content" id="imgModal">
+    </div>
+
+    <script>
+        // Funkcja pobierająca dane z pliku storage.json i generująca HTML
+        async function loadAndRenderInventory() {
+            const container = document.getElementById('boxesContainer');
+            
+            try {
+                // Pobieranie pliku json (zakłada, że plik jest w tym samym folderze)
+                const response = await fetch('storage.json');
+                
+                if (!response.ok) {
+                    throw new Error(`Nie udało się załadować pliku storage.json (Status: ${response.status})`);
+                }
+                
+                const inventoryData = await response.json();
+                container.innerHTML = ''; // Czyszczenie komunikatu o ładowaniu
+
+                // Generowanie struktury pudełek
+                inventoryData.forEach(box => {
+                    const section = document.createElement('section');
+                    section.id = box.boxId;
+                    section.className = 'box-section';
+
+                    let tableRows = '';
+                    box.items.forEach(item => {
+                        tableRows += `
+                            <tr class="item-row">
+                                <td><img src="${item.imageUrl}" alt="${item.name}" class="item-img" loading="lazy"></td>
+                                <td class="item-name">${item.name}</td>
+                                <td>${item.location}</td>
+                            </tr>
+                        `;
+                    });
+
+                    section.innerHTML = `
+                        <h2 class="box-title">${box.boxName}</h2>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Zdjęcie</th>
+                                    <th>Nazwa przedmiotu</th>
+                                    <th>W którym pudełku</th>
+                                }
+                            </thead>
+                            <tbody>
+                                ${tableRows}
+                            </tbody>
+                        </table>
+                    `;
+                    container.appendChild(section);
+                });
+
+                // --- INICJALIZACJA FUNKCJI (Po wyrenderowaniu inwentarza) ---
+                initSearch();
+                initModal(); // Dodanie obsługi powiększania zdjęć
+
+                // Obsługa przewijania do pudełka po kodzie QR po załadowaniu danych JSON
+                if(window.location.hash) {
+                    const hash = window.location.hash;
+                    setTimeout(() => {
+                        const el = document.querySelector(hash);
+                        if(el) el.scrollIntoView({ behavior: 'smooth' });
+                    }, 200);
+                }
+
+            } catch (error) {
+                console.error(error);
+                container.innerHTML = `
+                    <div class="error-message">
+                        <h3>Błąd ładowania danych!</h3>
+                        <p>Upewnij się, że plik <strong>storage.json</strong> znajduje się w tym samym folderze co strona oraz, że strona jest uruchomiona na serwerze (a nie bezpośrednio z dysku).</p>
+                    </div>
+                `;
+            }
+        }
+
+        // --- FUNKCJA OBSŁUGUJĄCA POWIĘKSZANIE ZDJĘĆ (MODAL) ---
+        function initModal() {
+            const modal = document.getElementById('imageModal');
+            const modalImg = document.getElementById('imgModal');
+            const closeSpan = document.querySelector('.close-modal');
+            const container = document.getElementById('boxesContainer');
+
+            // 1. Otwieranie: Używamy delegowania zdarzeń, bo zdjęcia są dynamiczne
+            container.addEventListener('click', function(e) {
+                if (e.target.classList.contains('item-img')) {
+                    const clickedImg = e.target;
+                    modalImg.src = clickedImg.src; // Przekaż URL małego zdjęcia do modala
+                    modal.classList.add('show'); // Pokaż modal
+                    document.body.style.overflow = 'hidden'; // Zablokuj przewijanie strony pod spodem
+                }
+            });
+
+            // 2. Zamykanie (Funkcja pomocnicza)
+            function closeModal() {
+                modal.classList.remove('show');
+                document.body.style.overflow = ''; // Przywróć przewijanie strony
+                // Opcjonalnie: wyczyść src zdjęcia po zamknięciu, aby nie "mrugało" przy kolejnym otwarciu
+                setTimeout(() => modalImg.src = '', 300);
+            }
+
+            // 3. Zamykanie: Kliknięcie w X
+            closeSpan.addEventListener('click', closeModal);
+
+            // 4. Zamykanie: Kliknięcie w tło modala (poza zdjęciem)
+            modal.addEventListener('click', function(e) {
+                if (e.target === modal || e.target === modalImg.parentNode) {
+                    closeModal();
+                }
+            });
+
+            // 5. Zamykanie: Wciśnięcie klawisza Esc
+            document.addEventListener('keydown', function(e) {
+                if (e.key === "Escape" && modal.classList.contains('show')) {
+                    closeModal();
+                }
+            });
+        }
+
+        // Funkcja obsługująca wyszukiwarkę tekstową
+        function initSearch() {
+            const searchInput = document.getElementById('searchInput');
+            
+            searchInput.addEventListener('input', function(e) {
+                const query = e.target.value.toLowerCase().trim();
+                const boxSections = document.querySelectorAll('.box-section');
+
+                boxSections.forEach(section => {
+                    const rows = section.querySelectorAll('.item-row');
+                    let visibleRowsInSection = 0;
+
+                    rows.forEach(row => {
+                        const itemName = row.querySelector('.item-name').textContent.toLowerCase();
+                        
+                        if (itemName.includes(query)) {
+                            row.classList.remove('hidden');
+                            visibleRowsInSection++;
+                        } else {
+                            row.classList.add('hidden');
+                        }
+                    });
+
+                    if (visibleRowsInSection === 0 && query !== '') {
+                        section.classList.add('hidden');
+                    } else {
+                        section.classList.remove('hidden');
+                    }
+                });
+            });
+        }
+
+        // Start aplikacji po załadowaniu drzewa DOM
+        document.addEventListener('DOMContentLoaded', loadAndRenderInventory);
+    </script>
+</body>
+</html>

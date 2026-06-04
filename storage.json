@@ -1,0 +1,34 @@
+[
+    {
+        "boxId": "pudelko1",
+        "boxName": "Zasilacze",
+        "items": [
+            {
+                "name": "Macsafe 1gen",
+                "imageUrl": "https://www.sbsupply.eu/media/amasty/webp/catalog/product/cache/207e23213cf636ccdef205098cf3c8a3/a/p/apple_60w_magsafe_1_lichtnetadapter_mc461z_a_1_jpg.webp",
+                "location": "Zasilacze"
+            },
+            {
+                "name": "ThinkPad zasilacz (okrągła końcówka)",
+                "imageUrl": "https://download.lenovo.com/km/media/images/PD008463/90W%20Round_20190415012435424.JPG",
+                "location": "Zasilacze"
+            }
+        ]
+    },
+    {
+        "boxId": "pudelko2",
+        "boxName": "Małe Elektroniczne",
+        "items": [
+            {
+                "name": "Kindle (plamka na ekranie)",
+                "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/5/50/Amazon_Kindle_Paperwhite_3.jpg",
+                "location": "Małe Elektroniczne"
+            },
+            {
+                "name": "LG G6",
+                "imageUrl": "https://pl.static.webuy.com/product_images/Telefony/Telefony%20Android/SLGH87032GCBSLB_l.jpg",
+                "location": "Małe Elektroniczne"
+            }
+        ]
+    }
+]
