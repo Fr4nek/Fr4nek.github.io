@@ -167,13 +167,38 @@
         "boxName": "Kable Video",
         "items": [
             {
-                "name": "",
-                "imageUrl": "https://www.sbsupply.eu/media/amasty/webp/catalog/product/cache/207e23213cf636ccdef205098cf3c8a3/a/p/apple_60w_magsafe_1_lichtnetadapter_mc461z_a_1_jpg.webp",
+                "name": "Kable Cinch X2",
+                "imageUrl": "https://sklepwideo.pl/images/kable_rca_3-3.jpg",
                 "location": "Kable Video"
             },
             {
-                "name": "",
-                "imageUrl": "https://download.lenovo.com/km/media/images/PD008463/90W%20Round_20190415012435424.JPG",
+                "name": "HDMI 1.5m",
+                "imageUrl": "https://pl.akyga.com/app_products_attachments/promotions/symbol/AK-HD-15A/name/Cable_HDMI_AK-HD-15A_2_3000x3000.jpg",
+                "location": "Kable Video"
+            },
+            {
+                "name": "VGA 1.5m",
+                "imageUrl": "https://media.rs-online.com/F6659557-01.jpg",
+                "location": "Kable Video"
+            },
+            {
+                "name": "VGA 1.5m (nowy)",
+                "imageUrl": "https://media.rs-online.com/F6659557-01.jpg",
+                "location": "Kable Video"
+            },
+            {
+                "name": "DisplayPort 1m",
+                "imageUrl": "https://pofirmowe.pl/environment/cache/images/productGfx_15449_800_800/DisplayPort.webp",
+                "location": "Kable Video"
+            },
+            {
+                "name": "Jack to Chinch",
+                "imageUrl": "https://i.ebayimg.com/images/g/x2YAAOSwbslmhGtz/s-l400.png",
+                "location": "Kable Video"
+            },
+            {
+                "name": "Te dziwne coś ",
+                "imageUrl": "",
                 "location": "Kable Video"
             }
         ]
