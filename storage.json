@@ -202,5 +202,21 @@
                 "location": "Kable Video"
             }
         ]
+    },
+    {
+        "boxId": "pudelko5",
+        "boxName": "Kable",
+        "items": [
+            {
+                "name": "1",
+                "imageUrl": "",
+                "location": "Kable Video"
+            },
+            {
+                "name": "2",
+                "imageUrl": "",
+                "location": "Kable Video"
+            }
+        ]
     }
 ]
