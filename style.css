@@ -63,7 +63,7 @@ body {
     background: linear-gradient(to left, var(--gradient-start), var(--gradient-end));  
     width: 100%;
     height: 100vh;
-    position: absolute;
+    position: fixed; /* Zmieniono z absolute na fixed */
     top: 0;
     left: 0;
     z-index: 1;
@@ -326,16 +326,62 @@ p {
     margin-bottom: 20px;
 }
 
+/* Styl dla ikonki zmiany motywu w prawym górnym rogu */
+.theme-toggle-btn {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%; /* Okrągły kształt dla ikonki */
+    background-color: var(--panel-bg);
+    border: 1px solid var(--panel-border);
+    backdrop-filter: blur(30px);
+    -webkit-backdrop-filter: blur(30px);
+    color: var(--text-muted);
+    font-size: 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 100; /* Gwarancja, że przycisk będzie zawsze na wierzchu */
+    transition: transform 0.3s ease, background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.theme-toggle-btn:hover {
+    background-color: var(--card-bg-hover);
+    transform: scale(1.1); /* Delikatne powiększenie przy najechaniu */
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+}
+
 /* Mobile Styles */
 @media screen and (max-width: 768px) {
+    body {
+        overflow-y: auto; /* Zezwala na przewijanie pionowe na telefonach */
+    }
+    
+    .context {
+        position: relative; /* Zmieniono z absolute, aby umożliwić rozciąganie */
+        height: auto;
+        min-height: 100vh;
+        display: block; /* Wyłącza flex-centering, który psuł układ przy długiej treści */
+        padding: 0;
+        z-index: 2;
+    }
+    
     .glass-panel {
         width: 100%;
         max-width: 100%;
         border-radius: 0;
-        padding: 40px 20px 20px 20px;
+        padding: 80px 20px 40px 20px; /* Zwiększony górny padding (ochrona przed przyciskiem back) */
         min-height: 100vh;
+        height: auto;
     }
     
-    .context { padding: 0; }
-    img { margin-top: 20px; }
+    img { 
+        margin-top: 20px; 
+    }
 }
+
+

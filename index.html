@@ -7,6 +7,11 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+
+    <button id="theme-toggle" class="theme-toggle-btn" aria-label="Zmień motyw">
+        <i class="fas fa-moon"></i>
+    </button>
+
     <div class="context">
         <div class="glass-panel" id="mainPanel">
             <!-- Main Panel -->
@@ -32,7 +37,6 @@
                 <div class="glass-toolbar">
                     <button class="glass-button" onclick="showPanel('projects')">Projekty</button>
                     <button class="glass-button" onclick="showPanel('blog')">Blog</button>
-                    <button id="theme-toggle" class="glass-button">Zmień motyw</button>
                 </div>
             </div>
 
@@ -65,8 +69,8 @@
                         <div class="project-description">Probably the simplest and the smoothest TODO app for MacOS.</div>
                     </div>
 
-                    <div class="project-card" onclick="window.open('sub-websites/snap_journal/index.html', '_blank')">
-                        <img src="sub-websites/snap_journal/logo.png" alt="Pozzy" class="project-logo">
+                    <div class="project-card" onclick="window.open('snap-journal/', '_blank')">
+                        <img src="snap_journal/logo.png" alt="Pozzy" class="project-logo">
                         <div class="project-title">Snap Journal</div>
                         <div class="project-description">Opis potem dodam</div>
                     </div>
@@ -84,15 +88,15 @@
                 <h2 class="panel-title">Blog</h2>
                 <p class="panel-subtitle">Nothing here yet...</p>
                 
-                <a href="blog/001.html">
                 <div class="blog-list">
-                    <div class="blog-post">
-                        <div class="blog-date">19 May 2026</div>
-                        <div class="blog-title">How Far Can We Go to Make an iPhone Truly Secure?</div>
-                        <div class="blog-excerpt"></div>
-                    </div>
-                </a>
-
+                    <a href="blog/001.html" style="text-decoration: none;">
+                        <div class="blog-post">
+                            <div class="blog-date">19 May 2026</div>
+                            <div class="blog-title">How Far Can We Go to Make an iPhone Truly Secure?</div>
+                            <div class="blog-excerpt"></div>
+                        </div>
+                    </a>
+                </div>
             </div>
 
                <!--  
@@ -177,24 +181,37 @@
 
     <script>
         const themeToggleBtn = document.getElementById('theme-toggle');
+        const themeIcon = themeToggleBtn.querySelector('i');
+
+        // Funkcja do aktualizacji ikony na podstawie aktywnego motywu
+        function updateThemeIcon() {
+            if (document.body.classList.contains('light-mode')) {
+                themeIcon.className = 'fas fa-sun';   // Ikona słońca dla jasnego motywu
+            } else {
+                themeIcon.className = 'fas fa-moon';  // Ikona księżyca dla ciemnego motywu
+            }
+        }
 
         // Sprawdź, czy użytkownik ma już zapisany preferowany motyw
         const currentTheme = localStorage.getItem('theme');
         if (currentTheme === 'light') {
             document.body.classList.add('light-mode');
         }
+        
+        // Uruchomienie dopasowania ikony przy starcie strony
+        updateThemeIcon();
 
         // Obsługa kliknięcia przycisku
         themeToggleBtn.addEventListener('click', () => {
-            // Przełącz klasę light-mode na elemencie body
             document.body.classList.toggle('light-mode');
             
-            // Zapisz wybór w localStorage
+            // Zapisz wybór w localStorage i zaktualizuj ikonę
             if (document.body.classList.contains('light-mode')) {
                 localStorage.setItem('theme', 'light');
             } else {
                 localStorage.setItem('theme', 'dark');
             }
+            updateThemeIcon();
         });
     </script>
     

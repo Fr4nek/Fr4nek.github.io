@@ -1,0 +1,841 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jan Kowalski — developer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+
+  /* ============ DESIGN TOKENS ============ */
+  :root{
+    --bg: #0d0f12;
+    --bg-elevated: #11141a;
+    --bg-tab: #15181e;
+    --text: #e4e6eb;
+    --text-dim: #8a8f98;
+    --text-faint: #565b64;
+    --line: #1f2329;
+    --line-soft: #181b21;
+    --accent: #7c9a7c;
+    --accent-dim: #5a7a5a;
+    --accent2: #e8a87c;
+    --danger: #c97064;
+
+    --mono: 'JetBrains Mono', 'SF Mono', Consolas, monospace;
+    --sans: 'Inter', -apple-system, sans-serif;
+
+    --radius: 4px;
+  }
+
+  *{ margin:0; padding:0; box-sizing:border-box; }
+
+  html{ scroll-behavior:smooth; }
+
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:var(--sans);
+    overflow-x:hidden;
+    min-height:100vh;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{ animation-duration:0.01ms !important; transition-duration:0.01ms !important; }
+  }
+
+  /* ============ UTILITY: focus ============ */
+  a:focus-visible, button:focus-visible{
+    outline:2px solid var(--accent);
+    outline-offset:2px;
+    border-radius:2px;
+  }
+
+  /* ============ BACKDROP GRID ============ */
+  .grid-bg{
+    position:fixed; inset:0;
+    background-image:
+      linear-gradient(var(--line-soft) 1px, transparent 1px),
+      linear-gradient(90deg, var(--line-soft) 1px, transparent 1px);
+    background-size: 48px 48px;
+    opacity:0.4;
+    pointer-events:none;
+    z-index:0;
+  }
+
+  /* ============ EDITOR FRAME ============ */
+  .editor{
+    position:relative;
+    z-index:1;
+    max-width:920px;
+    margin:6vh auto;
+    background:var(--bg-elevated);
+    border:1px solid var(--line);
+    border-radius:8px;
+    box-shadow: 0 40px 80px -40px rgba(0,0,0,0.6);
+    overflow:hidden;
+  }
+
+  /* --- title bar --- */
+  .titlebar{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding:12px 16px;
+    background:var(--bg-tab);
+    border-bottom:1px solid var(--line);
+  }
+  .dots{ display:flex; gap:7px; }
+  .dot{ width:11px; height:11px; border-radius:50%; }
+  .dot.red{ background:#4a3535; }
+  .dot.yellow{ background:#4a4530; }
+  .dot.green{ background:#2f4a35; }
+
+  .tab{
+    margin-left:8px;
+    font-family:var(--mono);
+    font-size:12.5px;
+    color:var(--text-dim);
+    display:flex;
+    align-items:center;
+    gap:7px;
+  }
+  .tab .filedot{
+    width:6px; height:6px; border-radius:50%;
+    background:var(--accent);
+    box-shadow: 0 0 6px var(--accent);
+  }
+
+  /* --- code body with line numbers --- */
+  .editor-body{
+    display:flex;
+  }
+  .line-numbers{
+    font-family:var(--mono);
+    font-size:13px;
+    color:var(--text-faint);
+    text-align:right;
+    padding:40px 14px 40px 0;
+    user-select:none;
+    border-right:1px solid var(--line);
+    line-height:1.9;
+    flex-shrink:0;
+    min-width:46px;
+  }
+
+  .content{
+    padding:40px 44px 44px 32px;
+    flex:1;
+    min-width:0;
+  }
+
+  /* ============ HERO ============ */
+  .hero{
+    display:flex;
+    gap:32px;
+    align-items:flex-start;
+  }
+
+  .avatar-wrap{
+    flex-shrink:0;
+    position:relative;
+  }
+  .avatar{
+    width:108px;
+    height:108px;
+    border-radius:6px;
+    object-fit:cover;
+    border:1px solid var(--line);
+    filter: grayscale(0.15) contrast(1.05);
+    display:block;
+  }
+  .avatar-tag{
+    position:absolute;
+    bottom:-9px;
+    left:50%;
+    transform:translateX(-50%);
+    background:var(--bg-tab);
+    border:1px solid var(--line);
+    color:var(--accent);
+    font-family:var(--mono);
+    font-size:10px;
+    padding:2px 7px;
+    border-radius:3px;
+    white-space:nowrap;
+  }
+
+  .hero-text{ padding-top:2px; }
+
+  .eyebrow{
+    font-family:var(--mono);
+    font-size:12.5px;
+    color:var(--accent);
+    margin-bottom:10px;
+    display:flex;
+    align-items:center;
+    gap:8px;
+  }
+  .eyebrow::before{ content:'//'; color:var(--text-faint); }
+
+  h1{
+    font-family:var(--mono);
+    font-weight:700;
+    font-size:clamp(28px, 4vw, 38px);
+    letter-spacing:-0.01em;
+    line-height:1.15;
+    color:var(--text);
+  }
+  h1 .cursor{
+    display:inline-block;
+    width:3px;
+    height:0.85em;
+    background:var(--accent);
+    margin-left:6px;
+    vertical-align:-2px;
+    animation: blink 1.1s steps(1) infinite;
+  }
+  @keyframes blink{ 50%{ opacity:0; } }
+
+  .role{
+    font-family:var(--mono);
+    font-size:14px;
+    color:var(--accent2);
+    margin-top:8px;
+  }
+
+  .desc{
+    margin-top:18px;
+    font-size:15px;
+    line-height:1.7;
+    color:var(--text-dim);
+    max-width:480px;
+  }
+  .desc strong{ color:var(--text); font-weight:500; }
+
+  /* ============ SOCIALS ============ */
+  .socials{
+    display:flex;
+    gap:10px;
+    margin-top:26px;
+    flex-wrap:wrap;
+  }
+  .social-link{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    padding:8px 13px;
+    border:1px solid var(--line);
+    border-radius:5px;
+    color:var(--text-dim);
+    text-decoration:none;
+    font-family:var(--mono);
+    font-size:12.5px;
+    transition: border-color 0.15s ease, color 0.15s ease, transform 0.15s ease;
+    background:var(--bg);
+  }
+  .social-link:hover{
+    border-color:var(--accent-dim);
+    color:var(--accent);
+    transform:translateY(-1px);
+  }
+  .social-link svg{ width:14px; height:14px; flex-shrink:0; }
+
+  /* ============ ACTIONS ROW ============ */
+  .actions{
+    margin-top:34px;
+    display:flex;
+    gap:12px;
+    border-top:1px solid var(--line);
+    padding-top:28px;
+  }
+
+  .btn{
+    font-family:var(--mono);
+    font-size:13px;
+    padding:11px 20px;
+    border-radius:5px;
+    border:1px solid var(--line);
+    background:transparent;
+    color:var(--text);
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    gap:9px;
+    transition: all 0.15s ease;
+  }
+  .btn:hover{ border-color:var(--accent-dim); background:rgba(124,154,124,0.06); }
+  .btn-primary{
+    background:var(--accent-dim);
+    border-color:var(--accent-dim);
+    color:#0d0f12;
+    font-weight:600;
+  }
+  .btn-primary:hover{ background:var(--accent); border-color:var(--accent); }
+  .btn .kbd{
+    font-size:10.5px;
+    color:var(--text-faint);
+    border:1px solid var(--line);
+    padding:1px 5px;
+    border-radius:3px;
+  }
+  .btn-primary .kbd{ color:rgba(13,15,18,0.55); border-color:rgba(13,15,18,0.3); }
+
+  /* ============ PROJECTS DRAWER ============ */
+  .drawer-overlay{
+    position:fixed; inset:0;
+    background:rgba(5,6,8,0.6);
+    backdrop-filter: blur(3px);
+    z-index:50;
+    opacity:0;
+    pointer-events:none;
+    transition: opacity 0.25s ease;
+  }
+  .drawer-overlay.open{ opacity:1; pointer-events:auto; }
+
+  .drawer{
+    position:fixed;
+    top:0; right:0;
+    height:100%;
+    width:min(440px, 92vw);
+    background:var(--bg-elevated);
+    border-left:1px solid var(--line);
+    z-index:51;
+    transform:translateX(100%);
+    transition: transform 0.32s cubic-bezier(.16,1,.3,1);
+    display:flex;
+    flex-direction:column;
+  }
+  .drawer.open{ transform:translateX(0); }
+
+  .drawer-head{
+    padding:20px 24px;
+    border-bottom:1px solid var(--line);
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    background:var(--bg-tab);
+  }
+  .drawer-head-title{
+    font-family:var(--mono);
+    font-size:13px;
+    color:var(--text-dim);
+    display:flex;
+    align-items:center;
+    gap:8px;
+  }
+  .drawer-head-title::before{ content:'~/projects'; color:var(--accent); }
+  .drawer-head-title .count{
+    background:var(--line);
+    color:var(--text-dim);
+    padding:1px 7px;
+    border-radius:10px;
+    font-size:11px;
+  }
+  .drawer-close{
+    background:none; border:none; color:var(--text-dim);
+    cursor:pointer; font-size:18px; line-height:1;
+    width:28px; height:28px;
+    display:flex; align-items:center; justify-content:center;
+    border-radius:4px;
+    transition: background 0.15s, color 0.15s;
+  }
+  .drawer-close:hover{ background:var(--line); color:var(--text); }
+
+  .drawer-list{
+    overflow-y:auto;
+    padding:8px;
+    flex:1;
+  }
+
+  .project-card{
+    padding:18px 16px;
+    border-radius:6px;
+    border:1px solid transparent;
+    margin-bottom:4px;
+    transition: background 0.15s, border-color 0.15s;
+    cursor:default;
+  }
+  .project-card:hover{
+    background:var(--bg-tab);
+    border-color:var(--line);
+  }
+  .project-top{
+    display:flex;
+    align-items:baseline;
+    justify-content:space-between;
+    gap:10px;
+  }
+  .project-name{
+    font-family:var(--mono);
+    font-size:14.5px;
+    font-weight:600;
+    color:var(--text);
+  }
+  .project-status{
+    font-family:var(--mono);
+    font-size:10.5px;
+    padding:2px 7px;
+    border-radius:9px;
+    white-space:nowrap;
+    flex-shrink:0;
+  }
+  .status-active{ background:rgba(124,154,124,0.15); color:var(--accent); }
+  .status-archived{ background:rgba(86,91,100,0.2); color:var(--text-faint); }
+  .status-wip{ background:rgba(232,168,124,0.15); color:var(--accent2); }
+
+  .project-desc{
+    font-size:13px;
+    color:var(--text-dim);
+    line-height:1.6;
+    margin-top:7px;
+  }
+  .project-stack{
+    display:flex;
+    gap:6px;
+    margin-top:11px;
+    flex-wrap:wrap;
+  }
+  .stack-tag{
+    font-family:var(--mono);
+    font-size:10.5px;
+    color:var(--text-faint);
+    border:1px solid var(--line);
+    padding:2px 7px;
+    border-radius:3px;
+  }
+  .project-link{
+    display:inline-flex;
+    align-items:center;
+    gap:5px;
+    margin-top:12px;
+    font-family:var(--mono);
+    font-size:12px;
+    color:var(--accent2);
+    text-decoration:none;
+  }
+  .project-link:hover{ text-decoration:underline; }
+
+  /* ============ BLOG FULLSCREEN ============ */
+  .blog-screen{
+    position:fixed; inset:0;
+    background:var(--bg);
+    z-index:60;
+    opacity:0;
+    pointer-events:none;
+    transition: opacity 0.3s ease;
+    overflow-y:auto;
+  }
+  .blog-screen.open{ opacity:1; pointer-events:auto; }
+
+  .blog-topbar{
+    position:sticky;
+    top:0;
+    background:var(--bg-tab);
+    border-bottom:1px solid var(--line);
+    padding:16px 28px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    z-index:2;
+  }
+  .blog-topbar-left{
+    font-family:var(--mono);
+    font-size:13px;
+    color:var(--text-dim);
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  .blog-topbar-left .prompt{ color:var(--accent); }
+  .blog-back{
+    font-family:var(--mono);
+    font-size:12.5px;
+    color:var(--text-dim);
+    background:none;
+    border:1px solid var(--line);
+    padding:8px 14px;
+    border-radius:5px;
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    gap:8px;
+    transition: border-color 0.15s, color 0.15s;
+  }
+  .blog-back:hover{ border-color:var(--accent-dim); color:var(--accent); }
+
+  .blog-inner{
+    max-width:760px;
+    margin:0 auto;
+    padding:56px 28px 100px;
+  }
+
+  .blog-heading{
+    font-family:var(--mono);
+    font-size:13px;
+    color:var(--text-faint);
+    margin-bottom:6px;
+  }
+  .blog-title{
+    font-family:var(--mono);
+    font-size:clamp(24px,4vw,32px);
+    font-weight:700;
+    margin-bottom:40px;
+  }
+
+  .post{
+    display:flex;
+    gap:20px;
+    padding:22px 4px;
+    border-bottom:1px solid var(--line);
+    text-decoration:none;
+    color:inherit;
+    transition: padding-left 0.18s ease;
+  }
+  .post:hover{ padding-left:10px; }
+  .post:hover .post-title{ color:var(--accent); }
+  .post:first-child{ padding-top:4px; }
+
+  .post-index{
+    font-family:var(--mono);
+    font-size:12px;
+    color:var(--text-faint);
+    padding-top:3px;
+    flex-shrink:0;
+    width:28px;
+  }
+  .post-main{ flex:1; min-width:0; }
+  .post-title{
+    font-size:16.5px;
+    font-weight:600;
+    color:var(--text);
+    transition: color 0.15s ease;
+  }
+  .post-excerpt{
+    font-size:13.5px;
+    color:var(--text-dim);
+    margin-top:7px;
+    line-height:1.6;
+  }
+  .post-meta{
+    display:flex;
+    gap:14px;
+    margin-top:11px;
+    font-family:var(--mono);
+    font-size:11.5px;
+    color:var(--text-faint);
+  }
+  .post-meta .tag{ color:var(--accent2); }
+  .post-arrow{
+    font-family:var(--mono);
+    color:var(--text-faint);
+    padding-top:3px;
+    transition: transform 0.18s ease, color 0.18s ease;
+  }
+  .post:hover .post-arrow{ transform:translateX(3px); color:var(--accent); }
+
+  /* ============ FOOTER LINE ============ */
+  .footer-note{
+    text-align:center;
+    font-family:var(--mono);
+    font-size:11.5px;
+    color:var(--text-faint);
+    padding:30px 0 10px;
+  }
+
+  /* ============ RESPONSIVE ============ */
+  @media (max-width:640px){
+    .editor{ margin:0; border-radius:0; min-height:100vh; }
+    .editor-body{ flex-direction:column; }
+    .line-numbers{ display:none; }
+    .content{ padding:28px 22px; }
+    .hero{ flex-direction:column; gap:20px; }
+    .actions{ flex-wrap:wrap; }
+    .drawer{ width:100%; }
+    .blog-inner{ padding:36px 18px 80px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="grid-bg" aria-hidden="true"></div>
+
+<!-- ============ MAIN EDITOR / HERO ============ -->
+<main class="editor">
+  <div class="titlebar">
+    <div class="dots">
+      <span class="dot red"></span>
+      <span class="dot yellow"></span>
+      <span class="dot green"></span>
+    </div>
+    <div class="tab"><span class="filedot"></span>jan_kowalski.profile</div>
+  </div>
+
+  <div class="editor-body">
+    <div class="line-numbers" aria-hidden="true">
+      <div>01</div><div>02</div><div>03</div><div>04</div><div>05</div>
+      <div>06</div><div>07</div><div>08</div><div>09</div><div>10</div>
+      <div>11</div><div>12</div><div>13</div><div>14</div><div>15</div>
+      <div>16</div><div>17</div><div>18</div><div>19</div><div>20</div>
+    </div>
+
+    <div class="content">
+      <section class="hero">
+        <div class="avatar-wrap">
+          <img class="avatar" src="https://i.pravatar.cc/300?img=12" alt="Zdjęcie profilowe Jana Kowalskiego">
+          <span class="avatar-tag">online</span>
+        </div>
+
+        <div class="hero-text">
+          <p class="eyebrow">whoami</p>
+          <h1>Jan Kowalski<span class="cursor" aria-hidden="true"></span></h1>
+          <p class="role">Backend developer · Kraków, PL</p>
+
+          <p class="desc">
+            Buduję systemy, które <strong>nie budzą nikogo w nocy</strong>.
+            Od pięciu lat pracuję z Pythonem i Go, ostatnio coraz więcej
+            czasu spędzam na infrastrukturze i automatyzacji. Po godzinach
+            piszę o tym, czego się nauczyłem — czasem też o tym, co nie zadziałało.
+          </p>
+
+          <nav class="socials" aria-label="Linki społecznościowe">
+            <a class="social-link" href="https://github.com/" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.09 3.29 9.4 7.86 10.93.57.1.78-.25.78-.55 0-.27-.01-1.17-.02-2.12-3.2.7-3.87-1.36-3.87-1.36-.52-1.33-1.28-1.68-1.28-1.68-1.05-.72.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.76 2.7 1.25 3.36.96.1-.75.4-1.25.73-1.54-2.56-.29-5.25-1.28-5.25-5.7 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.18 1.18a11 11 0 0 1 5.79 0c2.2-1.49 3.17-1.18 3.17-1.18.64 1.59.24 2.76.12 3.05.74.81 1.18 1.84 1.18 3.1 0 4.43-2.69 5.41-5.26 5.69.42.36.78 1.06.78 2.15 0 1.55-.01 2.8-.01 3.18 0 .3.21.66.79.55A11.5 11.5 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5z"/></svg>
+              github
+            </a>
+            <a class="social-link" href="https://linkedin.com/" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.34V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.38-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12zM7.12 20.45H3.56V9h3.56v11.45z"/></svg>
+              linkedin
+            </a>
+            <a class="social-link" href="https://x.com/" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.9 2H22l-7.6 8.7L23 22h-7.2l-5.6-7.3L4 22H1l8.2-9.3L1 2h7.3l5 6.6L18.9 2zm-2.5 18h2L8.6 4H6.5l9.9 16z"/></svg>
+              x / twitter
+            </a>
+            <a class="social-link" href="mailto:jan.kowalski@example.com">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M2 5.5A1.5 1.5 0 0 1 3.5 4h17A1.5 1.5 0 0 1 22 5.5v13a1.5 1.5 0 0 1-1.5 1.5h-17A1.5 1.5 0 0 1 2 18.5v-13zm2.2.5 7.3 6.1a1 1 0 0 0 1 0L19.8 6H4.2zM20 7.9l-7.1 5.9a2 2 0 0 1-2.6 0L4 7.9V18h16V7.9z"/></svg>
+              mail
+            </a>
+          </nav>
+
+          <div class="actions">
+            <button class="btn btn-primary" id="openProjects" aria-haspopup="dialog" aria-controls="projectsDrawer">
+              <span class="kbd">⌘P</span> projekty
+            </button>
+            <button class="btn" id="openBlog" aria-haspopup="dialog" aria-controls="blogScreen">
+              <span class="kbd">⌘B</span> blog
+            </button>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+</main>
+
+<p class="footer-note">// kompilacja zakończona bez błędów — strona renderuje się prawidłowo</p>
+
+<!-- ============ PROJECTS DRAWER ============ -->
+<div class="drawer-overlay" id="drawerOverlay"></div>
+<aside class="drawer" id="projectsDrawer" role="dialog" aria-modal="true" aria-label="Lista projektów" aria-hidden="true">
+  <div class="drawer-head">
+    <span class="drawer-head-title"><span class="count">5</span></span>
+    <button class="drawer-close" id="closeProjects" aria-label="Zamknij panel projektów">✕</button>
+  </div>
+  <div class="drawer-list">
+
+    <div class="project-card">
+      <div class="project-top">
+        <span class="project-name">queue-relay</span>
+        <span class="project-status status-active">active</span>
+      </div>
+      <p class="project-desc">Lekki broker kolejkowy do zadań w tle, napisany jako alternatywa dla cięższych rozwiązań w małych projektach.</p>
+      <div class="project-stack">
+        <span class="stack-tag">Go</span><span class="stack-tag">Redis</span><span class="stack-tag">Docker</span>
+      </div>
+      <a class="project-link" href="#">zobacz repo →</a>
+    </div>
+
+    <div class="project-card">
+      <div class="project-top">
+        <span class="project-name">habit-cli</span>
+        <span class="project-status status-active">active</span>
+      </div>
+      <p class="project-desc">Terminalowy tracker nawyków. Dane lokalnie, eksport do CSV, statystyki w terminalu.</p>
+      <div class="project-stack">
+        <span class="stack-tag">Python</span><span class="stack-tag">SQLite</span>
+      </div>
+      <a class="project-link" href="#">zobacz repo →</a>
+    </div>
+
+    <div class="project-card">
+      <div class="project-top">
+        <span class="project-name">infra-notes</span>
+        <span class="project-status status-wip">w budowie</span>
+      </div>
+      <p class="project-desc">Zbiór skryptów i konfiguracji Terraform do szybkiego stawiania środowisk testowych na własną rękę.</p>
+      <div class="project-stack">
+        <span class="stack-tag">Terraform</span><span class="stack-tag">AWS</span><span class="stack-tag">Bash</span>
+      </div>
+      <a class="project-link" href="#">zobacz repo →</a>
+    </div>
+
+    <div class="project-card">
+      <div class="project-top">
+        <span class="project-name">tiny-orm</span>
+        <span class="project-status status-archived">archiwum</span>
+      </div>
+      <p class="project-desc">Minimalny ORM dla Pythona, projekt edukacyjny — żeby zrozumieć, co dzieje się "pod maską" większych bibliotek.</p>
+      <div class="project-stack">
+        <span class="stack-tag">Python</span><span class="stack-tag">PostgreSQL</span>
+      </div>
+      <a class="project-link" href="#">zobacz repo →</a>
+    </div>
+
+    <div class="project-card">
+      <div class="project-top">
+        <span class="project-name">dotfiles</span>
+        <span class="project-status status-active">active</span>
+      </div>
+      <p class="project-desc">Konfiguracja terminala, neovima i shella, której używam na każdej nowej maszynie.</p>
+      <div class="project-stack">
+        <span class="stack-tag">Shell</span><span class="stack-tag">Lua</span>
+      </div>
+      <a class="project-link" href="#">zobacz repo →</a>
+    </div>
+
+  </div>
+</aside>
+
+<!-- ============ BLOG FULLSCREEN ============ -->
+<section class="blog-screen" id="blogScreen" role="dialog" aria-modal="true" aria-label="Lista wpisów na blogu" aria-hidden="true">
+  <div class="blog-topbar">
+    <div class="blog-topbar-left"><span class="prompt">~$</span> cat ./blog/*.md</div>
+    <button class="blog-back" id="closeBlog">esc · wróć</button>
+  </div>
+
+  <div class="blog-inner">
+    <p class="blog-heading">// wszystkie wpisy</p>
+    <h2 class="blog-title">Blog</h2>
+
+    <a class="post" href="#">
+      <span class="post-index">01</span>
+      <div class="post-main">
+        <div class="post-title">Dlaczego przesiadłem się z REST na gRPC w wewnętrznych serwisach</div>
+        <p class="post-excerpt">Krótkie podsumowanie tego, co zyskałem, co straciłem i czego nikt nie mówi o gRPC, zanim zaczniesz go używać produkcyjnie.</p>
+        <div class="post-meta">
+          <span>12 czerwca 2026</span>
+          <span class="tag">#backend</span>
+          <span>6 min</span>
+        </div>
+      </div>
+      <span class="post-arrow">→</span>
+    </a>
+
+    <a class="post" href="#">
+      <span class="post-index">02</span>
+      <div class="post-main">
+        <div class="post-title">Jak ogarnąłem własny serwer zamiast płacić za chmurę</div>
+        <p class="post-excerpt">Mała domowa infrastruktura, kosztorys i lista błędów, które popełniłem po drodze.</p>
+        <div class="post-meta">
+          <span>28 maja 2026</span>
+          <span class="tag">#infra</span>
+          <span>9 min</span>
+        </div>
+      </div>
+      <span class="post-arrow">→</span>
+    </a>
+
+    <a class="post" href="#">
+      <span class="post-index">03</span>
+      <div class="post-main">
+        <div class="post-title">Code review, które nikogo nie zniechęca</div>
+        <p class="post-excerpt">Parę zasad, które wypracował mój zespół, żeby review było pomocą, a nie polem bitwy.</p>
+        <div class="post-meta">
+          <span>14 maja 2026</span>
+          <span class="tag">#zespół</span>
+          <span>4 min</span>
+        </div>
+      </div>
+      <span class="post-arrow">→</span>
+    </a>
+
+    <a class="post" href="#">
+      <span class="post-index">04</span>
+      <div class="post-main">
+        <div class="post-title">Pierwszy miesiąc z Go po latach Pythona</div>
+        <p class="post-excerpt">Co mnie zaskoczyło, co mnie zirytowało i dlaczego ostatecznie zostałem przy tym dłużej niż planowałem.</p>
+        <div class="post-meta">
+          <span>2 maja 2026</span>
+          <span class="tag">#go</span>
+          <span>7 min</span>
+        </div>
+      </div>
+      <span class="post-arrow">→</span>
+    </a>
+
+  </div>
+</section>
+
+<script>
+  // ---- Projects drawer ----
+  const openProjects = document.getElementById('openProjects');
+  const closeProjects = document.getElementById('closeProjects');
+  const drawer = document.getElementById('projectsDrawer');
+  const drawerOverlay = document.getElementById('drawerOverlay');
+
+  function openDrawer(){
+    drawer.classList.add('open');
+    drawerOverlay.classList.add('open');
+    drawer.setAttribute('aria-hidden', 'false');
+    closeProjects.focus();
+  }
+  function closeDrawer(){
+    drawer.classList.remove('open');
+    drawerOverlay.classList.remove('open');
+    drawer.setAttribute('aria-hidden', 'true');
+    openProjects.focus();
+  }
+
+  openProjects.addEventListener('click', openDrawer);
+  closeProjects.addEventListener('click', closeDrawer);
+  drawerOverlay.addEventListener('click', closeDrawer);
+
+  // ---- Blog fullscreen ----
+  const openBlog = document.getElementById('openBlog');
+  const closeBlog = document.getElementById('closeBlog');
+  const blogScreen = document.getElementById('blogScreen');
+
+  function openBlogScreen(){
+    blogScreen.classList.add('open');
+    blogScreen.setAttribute('aria-hidden', 'false');
+    closeBlog.focus();
+  }
+  function closeBlogScreen(){
+    blogScreen.classList.remove('open');
+    blogScreen.setAttribute('aria-hidden', 'true');
+    openBlog.focus();
+  }
+
+  openBlog.addEventListener('click', openBlogScreen);
+  closeBlog.addEventListener('click', closeBlogScreen);
+
+  // ---- Escape key closes whatever is open ----
+  document.addEventListener('keydown', (e) => {
+    if(e.key === 'Escape'){
+      if(blogScreen.classList.contains('open')) closeBlogScreen();
+      if(drawer.classList.contains('open')) closeDrawer();
+    }
+    // keyboard shortcuts
+    if((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'p'){
+      e.preventDefault();
+      drawer.classList.contains('open') ? closeDrawer() : openDrawer();
+    }
+    if((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'b'){
+      e.preventDefault();
+      blogScreen.classList.contains('open') ? closeBlogScreen() : openBlogScreen();
+    }
+  });
+</script>
+
+</body>
+</html>
